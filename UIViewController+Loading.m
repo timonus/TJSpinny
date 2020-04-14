@@ -65,24 +65,43 @@ static const NSInteger kLoadingIndicatorTag = 92463;
         [activityIndicator startAnimating];
         [loadingView addSubview:activityIndicator];
         
-        loadingView.transform = CGAffineTransformMakeScale(0.3, 0.3);
-        loadingView.alpha = 0.0;
-        [UIView animateWithDuration:0.25 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.0 options:0 animations:^{
-            loadingView.transform = CGAffineTransformIdentity;
-            loadingView.alpha = 1.0;
-        } completion:nil];
+        _setActivityIndicatorViewHidden(loadingView, YES);
+        [UIView animateWithDuration:0.25
+                              delay:0.0
+             usingSpringWithDamping:0.5
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+            _setActivityIndicatorViewHidden(loadingView, NO);
+        }
+                         completion:nil];
     }
 }
 
 - (void)_hideLoadingIndicator
 {
     UIView *const view = [self.view viewWithTag:kLoadingIndicatorTag];
-    [UIView animateWithDuration:0.2 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.0 options:0 animations:^{
-        view.transform = CGAffineTransformMakeScale(0.3, 0.3);
-        view.alpha = 0.0;
-    } completion:^(BOOL finished) {
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+         usingSpringWithDamping:1.0
+          initialSpringVelocity:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+        _setActivityIndicatorViewHidden(view, YES);
+    }
+                     completion:^(BOOL finished) {
         [view removeFromSuperview];
     }];
+}
+
+static void _setActivityIndicatorViewHidden(UIView *const view, const BOOL hidden) {
+    if (hidden) {
+        view.transform = CGAffineTransformMakeScale(0.3, 0.3);
+        view.alpha = 0.0;
+    } else {
+        view.transform = CGAffineTransformIdentity;
+        view.alpha = 1.0;
+    }
 }
 
 @end
