@@ -30,19 +30,24 @@ static const NSInteger kLoadingIndicatorTag = 92463;
 - (void)_tryShowLoadingIndicator
 {
     if (![self.view viewWithTag:kLoadingIndicatorTag]) {
-        UIView *loadingView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 125.0, 125.0)];
-        loadingView.layer.cornerRadius = 12.0;
+        static const CGFloat kLoadingViewSideLength = 125.0;
+        static const CGFloat kLoadingViewCornerRadius = 12.0;
+        
+        UIView *loadingView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, kLoadingViewSideLength, kLoadingViewSideLength)];
+        loadingView.layer.cornerRadius = kLoadingViewCornerRadius;
         loadingView.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
         loadingView.tag = kLoadingIndicatorTag;
         loadingView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self.view addSubview:loadingView];
+        
+        static const CGFloat kLoadViewLightInterfaceBackgroundAlpha = 0.8;
         
         UIActivityIndicatorViewStyle style;
         if (@available(iOS 13.0, *)) {
             style = UIActivityIndicatorViewStyleLarge;
             loadingView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                    return [UIColor colorWithWhite:0.0 alpha:0.8];
+                    return [UIColor colorWithWhite:0.0 alpha:kLoadViewLightInterfaceBackgroundAlpha];
                 } else {
                     return [UIColor tertiarySystemBackgroundColor];
                 }
@@ -50,7 +55,7 @@ static const NSInteger kLoadingIndicatorTag = 92463;
             loadingView.layer.cornerCurve = kCACornerCurveContinuous;
         } else {
             style = UIActivityIndicatorViewStyleWhiteLarge;
-            loadingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.8];
+            loadingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:kLoadViewLightInterfaceBackgroundAlpha];
         }
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
         if (@available(iOS 13.0, *)) {
