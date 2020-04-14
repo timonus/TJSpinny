@@ -58,9 +58,7 @@ static const NSInteger kLoadingIndicatorTag = 92463;
             loadingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:kLoadViewLightInterfaceBackgroundAlpha];
         }
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-        if (@available(iOS 13.0, *)) {
-            activityIndicator.color = [UIColor whiteColor];
-        }
+        activityIndicator.color = [UIColor whiteColor];
         [activityIndicator sizeToFit];
         activityIndicator.center = CGPointMake(CGRectGetMidX(loadingView.bounds), CGRectGetMidY(loadingView.bounds));
         activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
