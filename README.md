@@ -16,7 +16,9 @@ This project does exactly that.
 |---|---|
 |![](Images/light.png)|![](Images/dark.png)|
 
-- It's "Jony Curve"-d / a "Squircle" shape (aka `kCACornerCurveContinuous`) on iOS 13+.
+<i>Shown against system background, system background elevated, and table view cell background colors.</i>
+
+- It's a "squircle" shape (aka `kCACornerCurveContinuous`) on iOS 13+.
 
 |Squircle (iOS 13+)|Rounded Rect|
 |---|---|
