@@ -43,7 +43,10 @@ static const NSInteger kLoadingIndicatorTag = 92463;
         static const CGFloat kLoadViewLightInterfaceBackgroundAlpha = 0.8;
         
         UIActivityIndicatorViewStyle style;
+        
+#if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         if (@available(iOS 13.0, *)) {
+#endif
             style = UIActivityIndicatorViewStyleLarge;
             loadingView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
@@ -53,10 +56,12 @@ static const NSInteger kLoadingIndicatorTag = 92463;
                 }
             }];
             loadingView.layer.cornerCurve = kCACornerCurveContinuous;
+#if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         } else {
             style = UIActivityIndicatorViewStyleWhiteLarge;
             loadingView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:kLoadViewLightInterfaceBackgroundAlpha];
         }
+#endif
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
         activityIndicator.color = [UIColor whiteColor];
         [activityIndicator sizeToFit];
