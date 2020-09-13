@@ -29,16 +29,17 @@ static const NSInteger kLoadingIndicatorTag = 92463;
 
 - (void)_tryShowLoadingIndicator
 {
-    if (![self.view viewWithTag:kLoadingIndicatorTag]) {
+    UIView *const view = self.viewIfLoaded;
+    if (view && ![view viewWithTag:kLoadingIndicatorTag]) {
         static const CGFloat kLoadingViewSideLength = 125.0;
         static const CGFloat kLoadingViewCornerRadius = 12.0;
         
         UIView *loadingView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, kLoadingViewSideLength, kLoadingViewSideLength)];
         loadingView.layer.cornerRadius = kLoadingViewCornerRadius;
-        loadingView.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
+        loadingView.center = CGPointMake(CGRectGetMidX(view.bounds), CGRectGetMidY(view.bounds));
         loadingView.tag = kLoadingIndicatorTag;
         loadingView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-        [self.view addSubview:loadingView];
+        [view addSubview:loadingView];
         
         static const CGFloat kLoadViewLightInterfaceBackgroundAlpha = 0.8;
         
@@ -85,7 +86,7 @@ static const NSInteger kLoadingIndicatorTag = 92463;
 
 - (void)_hideLoadingIndicator
 {
-    UIView *const view = [self.view viewWithTag:kLoadingIndicatorTag];
+    UIView *const view = [self.viewIfLoaded viewWithTag:kLoadingIndicatorTag];
     [UIView animateWithDuration:0.2
                           delay:0.0
          usingSpringWithDamping:1.0
