@@ -7,8 +7,9 @@
 //
 
 #import "UIViewController+Loading.h"
+#import <objc/runtime.h>
 
-static const NSInteger kLoadingIndicatorTag = 92463;
+static char *const kLoadingIndicatorKey = "kLIK";
 
 @implementation UIViewController (Loading)
 
@@ -30,14 +31,14 @@ static const NSInteger kLoadingIndicatorTag = 92463;
 - (void)_tryShowLoadingIndicator
 {
     UIView *const view = self.viewIfLoaded;
-    if (view && ![view viewWithTag:kLoadingIndicatorTag]) {
+    if (self.isViewLoaded && !objc_getAssociatedObject(self, kLoadingIndicatorKey)) {
         static const CGFloat kLoadingViewSideLength = 125.0;
         static const CGFloat kLoadingViewCornerRadius = 12.0;
         
         UIView *loadingView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, kLoadingViewSideLength, kLoadingViewSideLength)];
         loadingView.layer.cornerRadius = kLoadingViewCornerRadius;
         loadingView.center = CGPointMake(CGRectGetMidX(view.bounds), CGRectGetMidY(view.bounds));
-        loadingView.tag = kLoadingIndicatorTag;
+        objc_setAssociatedObject(self, kLoadingIndicatorKey, loadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         loadingView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         [view addSubview:loadingView];
         
@@ -86,18 +87,21 @@ static const NSInteger kLoadingIndicatorTag = 92463;
 
 - (void)_hideLoadingIndicator
 {
-    UIView *const view = [self.viewIfLoaded viewWithTag:kLoadingIndicatorTag];
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-         usingSpringWithDamping:1.0
-          initialSpringVelocity:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-        _setActivityIndicatorViewHidden(view, YES);
+    UIView *const view = objc_getAssociatedObject(self, kLoadingIndicatorKey);
+    if (view) {
+        objc_setAssociatedObject(self, kLoadingIndicatorKey, nil, OBJC_ASSOCIATION_ASSIGN);
+        [UIView animateWithDuration:0.2
+                              delay:0.0
+             usingSpringWithDamping:1.0
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+            _setActivityIndicatorViewHidden(view, YES);
+        }
+                         completion:^(BOOL finished) {
+            [view removeFromSuperview];
+        }];
     }
-                     completion:^(BOOL finished) {
-        [view removeFromSuperview];
-    }];
 }
 
 static void _setActivityIndicatorViewHidden(UIView *const view, const BOOL hidden) {
