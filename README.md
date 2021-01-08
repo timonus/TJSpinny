@@ -24,6 +24,7 @@ This project does exactly that.
 |---|---|
 |![](Images/light.png)|![](Images/nosquircle.png)|
 
+- Built-in support for the iOS ["reduce motion" accessibility setting](https://support.apple.com/en-us/HT202655).
 - Written in Objective-C for all you dinosaurs out there. 🦖
 
 ---

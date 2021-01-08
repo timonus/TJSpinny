@@ -75,7 +75,7 @@ static char *const kLoadingIndicatorKey = "kLIK";
         _setActivityIndicatorViewHidden(loadingView, YES);
         [UIView animateWithDuration:0.25
                               delay:0.0
-             usingSpringWithDamping:0.5
+             usingSpringWithDamping:UIAccessibilityIsReduceMotionEnabled() ? 1.0 : 0.6
               initialSpringVelocity:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
@@ -106,7 +106,8 @@ static char *const kLoadingIndicatorKey = "kLIK";
 
 static void _setActivityIndicatorViewHidden(UIView *const view, const BOOL hidden) {
     if (hidden) {
-        view.transform = CGAffineTransformMakeScale(0.3, 0.3);
+        const CGFloat scale = UIAccessibilityIsReduceMotionEnabled() ? 0.85 : 0.3;
+        view.transform = CGAffineTransformMakeScale(scale, scale);
         view.alpha = 0.0;
     } else {
         view.transform = CGAffineTransformIdentity;
