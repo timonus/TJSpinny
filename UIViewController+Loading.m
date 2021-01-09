@@ -36,6 +36,7 @@ static char *const kLoadingIndicatorKey = "kLIK";
         static const CGFloat kLoadingViewCornerRadius = 12.0;
         
         UIView *loadingView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, kLoadingViewSideLength, kLoadingViewSideLength)];
+        loadingView.userInteractionEnabled = NO;
         loadingView.layer.cornerRadius = kLoadingViewCornerRadius;
         loadingView.center = CGPointMake(CGRectGetMidX(view.bounds), CGRectGetMidY(view.bounds));
         objc_setAssociatedObject(self, kLoadingIndicatorKey, loadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
