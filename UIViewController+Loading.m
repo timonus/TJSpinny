@@ -54,17 +54,14 @@ static char *const kLoadingIndicatorKey = "kLIK";
         [view addSubview:loadingView];
         
         UIActivityIndicatorViewStyle style;
-        UIVisualEffect *vibrancyEffect;
 #if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         if (@available(iOS 13.0, *)) {
 #endif
             style = UIActivityIndicatorViewStyleLarge;
             loadingView.layer.cornerCurve = kCACornerCurveContinuous;
-            vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:effect style:UIVibrancyEffectStyleLabel];
 #if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         } else {
             style = UIActivityIndicatorViewStyleWhiteLarge;
-            vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:effect];
         }
 #endif
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
