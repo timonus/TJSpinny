@@ -36,11 +36,15 @@ static char *const kLoadingIndicatorKey = "kLIK";
         static const CGFloat kLoadingViewCornerRadius = 12.0;
 
         UIBlurEffectStyle blurStyle;
+#if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         if (@available(iOS 13.0, *)) {
+#endif
             blurStyle = UIBlurEffectStyleSystemMaterialDark;
+#if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         } else {
             blurStyle = UIBlurEffectStyleDark;
         }
+#endif
         UIBlurEffect *effect = [UIBlurEffect effectWithStyle:blurStyle];
         UIVisualEffectView *loadingView = [[UIVisualEffectView alloc] initWithEffect:effect];
         loadingView.bounds = CGRectMake(0.0, 0.0, kLoadingViewSideLength, kLoadingViewSideLength);
