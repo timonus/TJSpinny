@@ -35,18 +35,23 @@ static char *const kLoadingIndicatorKey = "kLIK";
         static const CGFloat kLoadingViewSideLength = 125.0;
         static const CGFloat kLoadingViewCornerRadius = 12.0;
 
+        UIVisualEffectView *loadingView = [UIVisualEffectView new];
+        
         UIBlurEffectStyle blurStyle;
+        UIActivityIndicatorViewStyle indicatorStyle;
 #if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         if (@available(iOS 13.0, *)) {
 #endif
             blurStyle = UIBlurEffectStyleSystemMaterialDark;
+            indicatorStyle = UIActivityIndicatorViewStyleLarge;
+            loadingView.layer.cornerCurve = kCACornerCurveContinuous;
 #if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
         } else {
             blurStyle = UIBlurEffectStyleDark;
+            indicatorStyle = UIActivityIndicatorViewStyleWhiteLarge;
         }
 #endif
-        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:blurStyle];
-        UIVisualEffectView *loadingView = [[UIVisualEffectView alloc] initWithEffect:effect];
+        loadingView.effect = [UIBlurEffect effectWithStyle:blurStyle];
         loadingView.bounds = CGRectMake(0.0, 0.0, kLoadingViewSideLength, kLoadingViewSideLength);
         loadingView.userInteractionEnabled = NO;
         loadingView.layer.cornerRadius = kLoadingViewCornerRadius;
@@ -57,18 +62,7 @@ static char *const kLoadingIndicatorKey = "kLIK";
         loadingView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         [view addSubview:loadingView];
         
-        UIActivityIndicatorViewStyle style;
-#if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
-        if (@available(iOS 13.0, *)) {
-#endif
-            style = UIActivityIndicatorViewStyleLarge;
-            loadingView.layer.cornerCurve = kCACornerCurveContinuous;
-#if !defined(__IPHONE_13_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_13_0
-        } else {
-            style = UIActivityIndicatorViewStyleWhiteLarge;
-        }
-#endif
-        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
+        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         activityIndicator.color = [UIColor whiteColor];
         [activityIndicator sizeToFit];
         activityIndicator.center = CGPointMake(CGRectGetMidX(loadingView.bounds), CGRectGetMidY(loadingView.bounds));
