@@ -1,6 +1,6 @@
 # TJSpinny
 
-Sometimes you want to show a `UIActivityIndicator` view in the middle of a view controller to show that something's happening.
+Sometimes you want to show a `UIActivityIndicatorView` in the middle of a view controller to show that something's happening.
 
 ![](Images/demo.gif)
 
