@@ -104,7 +104,14 @@ static char *const kLoadingIndicatorKey = "kLIK";
 
 static void _setActivityIndicatorViewHidden(UIView *const view, const BOOL hidden) {
     if (hidden) {
-        const CGFloat scale = UIAccessibilityIsReduceMotionEnabled() ? 0.85 : 0.3;
+        CGFloat scale;
+        if (UIAccessibilityPrefersCrossFadeTransitions()) {
+            scale = 1.0;
+        } else if (UIAccessibilityIsReduceMotionEnabled()) {
+            scale = 0.85;
+        } else {
+            scale = 0.3;
+        }
         view.transform = CGAffineTransformMakeScale(scale, scale);
         view.alpha = 0.0;
     } else {
