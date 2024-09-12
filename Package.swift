@@ -16,7 +16,8 @@ let package = Package(
             name: "TJSpinny",
             path: ".",
             sources: ["UIViewController+Loading.m"],
-            publicHeadersPath: "."
+            publicHeadersPath: ".",
+			resources: []
         )
     ]
 )
